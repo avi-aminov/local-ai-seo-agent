@@ -46,6 +46,7 @@ Backend:
 PORT=3000
 OLLAMA_URL=http://ollama:11434
 OLLAMA_MODEL=gemma4:e4b
+OLLAMA_TIMEOUT_MS=180000
 ```
 
 Frontend:
@@ -59,9 +60,11 @@ Do not commit `.env` files.
 ## Expected Ports
 
 ```txt
-frontend: http://localhost:5173
-backend:  http://localhost:3000
-ollama:   http://localhost:11434
+frontend local dev: http://localhost:5173
+backend local dev:  http://localhost:3000
+frontend Docker:    http://localhost:5174
+backend Docker:     http://localhost:3001
+ollama:   http://localhost:11435 when using Docker Compose
 ```
 
 ## Docker Run

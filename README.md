@@ -39,7 +39,13 @@ Default URLs:
 
 - Frontend: http://localhost:5173
 - Backend: http://localhost:3000
-- Ollama: http://localhost:11434
+- Ollama: http://localhost:11434 locally, or http://localhost:11435 through Docker Compose
+
+Docker Compose exposes the app on separate host ports so it can run beside local dev servers:
+
+- Frontend Docker: http://localhost:5174
+- Backend Docker: http://localhost:3001
+- Ollama Docker: http://localhost:11435
 
 ## Environment
 
@@ -49,6 +55,7 @@ Backend `server/.env`:
 PORT=3000
 OLLAMA_URL=http://localhost:11434
 OLLAMA_MODEL=gemma4:e4b
+OLLAMA_TIMEOUT_MS=180000
 ```
 
 Frontend `client/.env`:

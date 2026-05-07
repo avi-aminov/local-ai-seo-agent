@@ -192,7 +192,7 @@ Status format:
 - `[ + ]` Connect backend to Ollama through Docker network.
 - `[ + ]` Expose frontend port.
 - `[ + ]` Expose backend port.
-- `[ ]` Verify `docker compose up`.
+- `[ + ]` Verify `docker compose up`.
 
 ## 16 - Testing And Verification
 
@@ -252,7 +252,7 @@ Status format:
 ## 20 - Final Quality Gate
 
 - `[ ]` App runs locally.
-- `[ ]` App runs with Docker.
+- `[ + ]` App runs with Docker.
 - `[ ]` Full analysis workflow works.
 - `[ ]` No cloud AI API is used.
 - `[ ]` Gemma is central to the product.
