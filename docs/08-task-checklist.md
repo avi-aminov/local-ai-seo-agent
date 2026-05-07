@@ -174,8 +174,8 @@ Status format:
 - `[ + ]` Add loading state.
 - `[ + ]` Add user-friendly error alert.
 - `[ + ]` Make layout responsive.
-- `[ ]` Verify mobile width.
-- `[ ]` Verify desktop width.
+- `[ + ]` Verify mobile width.
+- `[ + ]` Verify desktop width.
 - `[ + ]` Improve spacing and typography.
 - `[ + ]` Ensure buttons and text do not overflow.
 - `[ + ]` Add accessible labels.
@@ -202,9 +202,9 @@ Status format:
 - `[ + ]` Test scanner with a real content page.
 - `[ + ]` Test full Gemma analysis flow.
 - `[ + ]` Test Ollama unavailable error.
-- `[ ]` Test frontend form.
-- `[ ]` Test frontend report rendering.
-- `[ ]` Test responsive layout.
+- `[ + ]` Test frontend form.
+- `[ + ]` Test frontend report rendering.
+- `[ + ]` Test responsive layout.
 - `[ + ]` Run TypeScript checks.
 - `[ + ]` Run production builds.
 
@@ -255,9 +255,9 @@ Status format:
 - `[ + ]` App runs with Docker.
 - `[ + ]` Full analysis workflow works.
 - `[ + ]` No cloud AI API is used.
-- `[ ]` Gemma is central to the product.
+- `[ + ]` Gemma is central to the product.
 - `[ + ]` Error handling is clean.
-- `[ ]` UI is polished enough for screenshots.
-- `[ ]` README is complete.
+- `[ + ]` UI is polished enough for screenshots.
+- `[ + ]` README is complete.
 - `[ ]` DEV post is complete.
-- `[ ]` Repository is ready to share.
+- `[ + ]` Repository is ready to share.
