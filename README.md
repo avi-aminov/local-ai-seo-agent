@@ -10,6 +10,12 @@ Repository:
 https://github.com/avi-aminov/local-ai-seo-agent
 ```
 
+DEV submission:
+
+```txt
+https://dev.to/avraham_aminov_542e8309b6/building-a-local-ai-seo-agent-with-gemma-ollama-docker-and-react-303j
+```
+
 ## Workflow
 
 ```txt
@@ -169,3 +175,7 @@ docker compose exec ollama ollama pull gemma4:e4b
 ## Contest Note
 
 This project is being built for the DEV Gemma 4 Challenge. It uses Gemma as the reasoning layer that turns deterministic SEO scan data into actionable recommendations.
+
+Submission article:
+
+[Building a Local AI SEO Agent with Gemma, Ollama, Docker, and React](https://dev.to/avraham_aminov_542e8309b6/building-a-local-ai-seo-agent-with-gemma-ollama-docker-and-react-303j)

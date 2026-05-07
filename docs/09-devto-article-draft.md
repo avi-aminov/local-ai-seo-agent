@@ -276,9 +276,14 @@ GitHub:
 https://github.com/avi-aminov/local-ai-seo-agent
 ```
 
+Published DEV post:
+
+```txt
+https://dev.to/avraham_aminov_542e8309b6/building-a-local-ai-seo-agent-with-gemma-ollama-docker-and-react-303j
+```
+
 ## Conclusion
 
 Local AI SEO Agent shows how Gemma can power a real developer tool without relying on cloud AI APIs.
 
 The project combines deterministic SEO scanning with local AI reasoning, validates the model output, and presents the result in a clean web UI.
-
