@@ -39,9 +39,8 @@ function normalizeAiPayload(payload: unknown): unknown {
   };
 }
 
-export async function analyzeSeoWithAi(scan: SeoScanResult): Promise<SeoAiAnalysis> {
+export async function analyzeSeoWithAi(scan: SeoScanResult, model: string): Promise<SeoAiAnalysis> {
   const ollamaUrl = process.env.OLLAMA_URL || 'http://localhost:11434';
-  const model = process.env.OLLAMA_MODEL || 'gemma4:e4b';
   const timeoutMs = Number(process.env.OLLAMA_TIMEOUT_MS || 180000);
   const prompt = buildSeoAnalysisPrompt(scan);
 

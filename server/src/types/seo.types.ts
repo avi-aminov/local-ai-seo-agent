@@ -50,5 +50,14 @@ export interface SeoReport {
   finalUrl: string;
   scan: SeoScanResult;
   analysis: SeoAiAnalysis;
+  runtime: {
+    model: string;
+    mode: 'fast' | 'quality';
+    localAi: boolean;
+    scanDurationMs: number;
+    aiDurationMs: number;
+    totalDurationMs: number;
+    cacheHit: boolean;
+    promptVersion: string;
+  };
 }
-

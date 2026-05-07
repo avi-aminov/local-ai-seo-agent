@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react';
 import { ErrorAlert } from './components/ErrorAlert';
+import { ExportActions } from './components/ExportActions';
 import { IssueList } from './components/IssueList';
 import { LoadingState } from './components/LoadingState';
 import { MetadataSuggestions } from './components/MetadataSuggestions';
+import { ReportMetrics } from './components/ReportMetrics';
 import { RecommendationList } from './components/RecommendationList';
+import { RuntimeBadges } from './components/RuntimeBadges';
 import { ScanHighlights } from './components/ScanHighlights';
+import { SeoHealthBadges } from './components/SeoHealthBadges';
 import { SeoScoreCard } from './components/SeoScoreCard';
 import { UrlForm } from './components/UrlForm';
-import { analyzeUrl } from './services/analyze.service';
+import { analyzeUrl, type AnalysisMode } from './services/analyze.service';
 import type { SeoReport } from './types/report.types';
 
 function isValidUrl(value: string): boolean {
@@ -33,6 +37,7 @@ export default function App() {
   const [error, setError] = useState('');
   const [report, setReport] = useState<SeoReport | null>(null);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  const [mode, setMode] = useState<AnalysisMode>('quality');
 
   useEffect(() => {
     if (!loading) {
@@ -58,7 +63,7 @@ export default function App() {
     setLoading(true);
     setReport(null);
     try {
-      const nextReport = await analyzeUrl(url);
+      const nextReport = await analyzeUrl(url, mode);
       setReport(nextReport);
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : 'Analysis failed.');
@@ -81,7 +86,14 @@ export default function App() {
         </header>
 
         <section className="rounded-md border border-slate-200 bg-white p-4 shadow-sm md:p-5">
-          <UrlForm loading={loading} onSubmit={handleSubmit} onUrlChange={setUrl} url={url} />
+          <UrlForm
+            loading={loading}
+            mode={mode}
+            onModeChange={setMode}
+            onSubmit={handleSubmit}
+            onUrlChange={setUrl}
+            url={url}
+          />
         </section>
 
         {error ? <ErrorAlert message={error} /> : null}
@@ -97,11 +109,20 @@ export default function App() {
             <div className="grid gap-5 lg:grid-cols-[280px_1fr]">
               <SeoScoreCard score={report.analysis.score} />
               <section className="rounded-md border border-slate-200 bg-white p-5 shadow-sm">
-                <p className="text-sm font-medium text-slate-500">Summary</p>
-                <h2 className="mt-2 break-words text-xl font-semibold text-slate-950">{report.finalUrl}</h2>
+                <div className="flex flex-col gap-4">
+                  <div>
+                    <p className="text-sm font-medium text-slate-500">Summary</p>
+                    <h2 className="mt-2 break-words text-xl font-semibold text-slate-950">{report.finalUrl}</h2>
+                  </div>
+                  <RuntimeBadges runtime={report.runtime} />
+                  <ExportActions report={report} />
+                </div>
                 <p className="mt-3 leading-7 text-slate-700">{report.analysis.summary}</p>
               </section>
             </div>
+
+            <SeoHealthBadges report={report} />
+            <ReportMetrics report={report} />
 
             <div className="grid gap-5 lg:grid-cols-2">
               <IssueList

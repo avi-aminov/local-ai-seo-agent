@@ -2,13 +2,15 @@ import type { ApiError, ApiSuccess, SeoReport } from '../types/report.types';
 
 const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
-export async function analyzeUrl(url: string): Promise<SeoReport> {
+export type AnalysisMode = 'fast' | 'quality';
+
+export async function analyzeUrl(url: string, mode: AnalysisMode): Promise<SeoReport> {
   const response = await fetch(`${apiUrl}/analyze`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ url }),
+    body: JSON.stringify({ url, mode }),
   });
 
   const payload = (await response.json()) as ApiSuccess<SeoReport> | ApiError;
@@ -19,4 +21,3 @@ export async function analyzeUrl(url: string): Promise<SeoReport> {
 
   return payload.data;
 }
-

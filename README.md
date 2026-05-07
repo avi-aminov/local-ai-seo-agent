@@ -40,9 +40,49 @@ URL -> SEO scan -> Gemma via Ollama -> structured AI report -> React UI
 - JSON-LD schema detection
 - Content length and word count estimate
 - Local Gemma analysis through Ollama
+- Fast/Quality model mode selection
+- Copy report and Download JSON actions
+- SEO health badges for deterministic checks
 - Structured AI response validation
 - SEO score, issues, recommendations, and suggested metadata
 - Docker Compose setup
+
+## Example Output
+
+```json
+{
+  "success": true,
+  "data": {
+    "url": "https://example.com",
+    "finalUrl": "https://example.com/",
+    "analysis": {
+      "score": 85,
+      "summary": "The page has solid metadata and content depth, but needs structured data and stronger heading hierarchy.",
+      "criticalIssues": [],
+      "mediumIssues": [
+        "Schema markup is missing, which can reduce eligibility for rich results."
+      ],
+      "recommendations": [
+        "Add LocalBusiness or Organization schema where relevant.",
+        "Expand heading hierarchy with descriptive H2 and H3 sections.",
+        "Review internal links and ensure key pages are reachable."
+      ],
+      "suggestedTitle": "Example Page - Clear Product or Service Value",
+      "suggestedMetaDescription": "A concise search-friendly summary of the page content and value."
+    },
+    "runtime": {
+      "model": "gemma4:e4b",
+      "mode": "quality",
+      "localAi": true,
+      "scanDurationMs": 1200,
+      "aiDurationMs": 90000,
+      "totalDurationMs": 91200,
+      "cacheHit": false,
+      "promptVersion": "seo-audit-v1"
+    }
+  }
+}
+```
 
 ## Architecture
 
@@ -124,6 +164,7 @@ PORT=3000
 OLLAMA_URL=http://localhost:11434
 OLLAMA_MODEL=gemma4:e4b
 OLLAMA_TIMEOUT_MS=180000
+REPORT_CACHE_TTL_MS=900000
 ```
 
 Frontend `client/.env`:
@@ -160,6 +201,7 @@ docker compose exec ollama ollama pull gemma4:e4b
 - JavaScript-rendered content is not executed.
 - Full Lighthouse/Core Web Vitals analysis is not included.
 - First local model response can be slow while Gemma loads into memory.
+- Repeated URL analysis uses an in-memory cache by URL and model for faster demos.
 - AI output is validated, but recommendations should still be reviewed by a human.
 
 ## Future Features

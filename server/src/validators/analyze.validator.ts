@@ -24,6 +24,7 @@ function isPrivateOrLocalHost(hostname: string): boolean {
 }
 
 export const analyzeRequestSchema = z.object({
+  mode: z.enum(['fast', 'quality']).default('quality'),
   url: z
     .string()
     .trim()
@@ -43,4 +44,3 @@ export const analyzeRequestSchema = z.object({
 });
 
 export type AnalyzeRequest = z.infer<typeof analyzeRequestSchema>;
-

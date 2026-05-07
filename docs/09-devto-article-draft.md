@@ -80,6 +80,13 @@ structured SEO facts -> prioritized SEO recommendations
 
 I selected `gemma4:e4b` because it is stronger than the smallest edge variant while still being practical for local development. In my local Docker setup, a full audit generally takes around 1-2 minutes depending on whether the model is already loaded.
 
+I later added a mode selector:
+
+- `Fast` uses `gemma4:e2b`
+- `Quality` uses `gemma4:e4b`
+
+This makes the local AI tradeoff visible to users instead of hiding it.
+
 ## Architecture
 
 The app has three main parts:
