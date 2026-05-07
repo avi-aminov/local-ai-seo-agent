@@ -14,7 +14,7 @@ The app takes a public webpage URL, scans the page for technical SEO signals, se
 
 The main constraint was intentional: **no cloud AI APIs**. The AI layer runs locally.
 
-![Homepage](TODO upload screenshots/homepage.png)
+![Homepage](../screenshots/homepage.png)
 
 ## Why Local AI For SEO
 
@@ -67,9 +67,9 @@ The UI also exposes product-oriented controls:
 - Copy report
 - Download JSON
 
-![SEO report](TODO upload screenshots/report.png)
+![SEO report](../screenshots/report.png)
 
-![Runtime and cache](TODO upload screenshots/runtime-cache.png)
+![Runtime and cache](../screenshots/runtime-cache.png)
 
 ## How Gemma Is Used
 
@@ -224,9 +224,9 @@ The API response includes runtime metadata:
 }
 ```
 
-![Recommendations](TODO upload screenshots/recommendations.png)
+![Recommendations](../screenshots/recommendations.png)
 
-![Export actions](TODO upload screenshots/export-actions.png)
+![Export actions](../screenshots/export-actions.png)
 
 ## Frontend
 
@@ -252,11 +252,11 @@ The loading state is important because local inference can take time, especially
 
 I also added in-memory caching by URL and model. When the same URL is analyzed again with the same mode, the app can return the previous report immediately and mark it as a cache hit.
 
-![Loading state](TODO upload screenshots/loading.png)
+![Loading state](../screenshots/loading.png)
 
-![SEO health badges](TODO upload screenshots/health-badges.png)
+![SEO health badges](../screenshots/health-badges.png)
 
-![Scan highlights](TODO upload screenshots/scan-highlights.png)
+![Scan highlights](../screenshots/scan-highlights.png)
 
 ## Docker Setup
 
@@ -285,7 +285,7 @@ docker compose exec ollama ollama pull gemma4:e4b
 docker compose exec ollama ollama pull gemma4:e2b
 ```
 
-![Docker containers](TODO upload screenshots/docker-containers.png)
+![Docker containers](../screenshots/docker-containers.png)
 
 ## Challenges
 
@@ -337,15 +337,7 @@ Future improvements could include:
 
 GitHub:
 
-```txt
-https://github.com/avi-aminov/local-ai-seo-agent
-```
-
-Published DEV post:
-
-```txt
-https://dev.to/avraham_aminov_542e8309b6/building-a-local-ai-seo-agent-with-gemma-ollama-docker-and-react-303j
-```
+[GitHub repository](https://github.com/avi-aminov/local-ai-seo-agent)
 
 ## Conclusion
 
