@@ -34,7 +34,7 @@ Local AI fits this workflow well because the task is bounded. The backend extrac
 The product flow is:
 
 ```txt
-URL -> SEO scan -> Gemma analysis -> validated JSON -> report UI
+URL + model mode -> SEO scan -> Gemma analysis -> validated JSON -> report UI
 ```
 
 The deterministic scanner extracts:
@@ -58,7 +58,18 @@ Gemma generates:
 - suggested title
 - suggested meta description
 
+The UI also exposes product-oriented controls:
+
+- Fast / Quality model mode
+- runtime metrics
+- cache status
+- SEO health badges
+- Copy report
+- Download JSON
+
 ![SEO report](TODO upload screenshots/report.png)
+
+![Runtime and cache](TODO upload screenshots/runtime-cache.png)
 
 ## How Gemma Is Used
 
@@ -87,6 +98,20 @@ I later added a mode selector:
 
 This makes the local AI tradeoff visible to users instead of hiding it.
 
+The report also shows the exact model, prompt version, cache state, scan time, Gemma time, and total runtime. That made performance more transparent:
+
+```txt
+Mode: Fast
+Model: gemma4:e2b
+Cache: Miss
+Scan: 946ms
+Gemma: 59s
+Total: 1m 0s
+Prompt: seo-audit-v1
+```
+
+For comparison, `Quality` mode with `gemma4:e4b` produced deeper analysis but took longer on my machine.
+
 ## Architecture
 
 The app has three main parts:
@@ -112,6 +137,7 @@ The backend owns:
 - prompt building
 - Ollama communication
 - AI response validation
+- report caching
 - report formatting
 
 This separation made the project easier to reason about. The scanner extracts facts, Gemma interprets them, and the frontend presents the final report.
@@ -181,7 +207,26 @@ If Gemma returns malformed JSON, missing required fields, or an invalid score, t
 
 I also reduced the prompt size by sending a scanner summary instead of the full raw scan object. That made local inference more predictable.
 
+The API response includes runtime metadata:
+
+```json
+{
+  "runtime": {
+    "mode": "quality",
+    "model": "gemma4:e4b",
+    "localAi": true,
+    "scanDurationMs": 1200,
+    "aiDurationMs": 90000,
+    "totalDurationMs": 91200,
+    "cacheHit": false,
+    "promptVersion": "seo-audit-v1"
+  }
+}
+```
+
 ![Recommendations](TODO upload screenshots/recommendations.png)
+
+![Export actions](TODO upload screenshots/export-actions.png)
 
 ## Frontend
 
@@ -190,17 +235,26 @@ The frontend is built with React, TypeScript, Vite, and TailwindCSS.
 It includes:
 
 - URL input
+- Fast / Quality model selector
 - loading state with elapsed time
 - SEO score card
+- SEO health badges
+- runtime badges
 - summary panel
 - issue lists
 - recommendations
 - suggested metadata
 - scan highlights
+- Copy report action
+- Download JSON action
 
 The loading state is important because local inference can take time, especially on the first request when Ollama loads the model into memory.
 
+I also added in-memory caching by URL and model. When the same URL is analyzed again with the same mode, the app can return the previous report immediately and mark it as a cache hit.
+
 ![Loading state](TODO upload screenshots/loading.png)
+
+![SEO health badges](TODO upload screenshots/health-badges.png)
 
 ![Scan highlights](TODO upload screenshots/scan-highlights.png)
 
@@ -228,6 +282,7 @@ After starting the containers, pull the model into the Ollama service:
 
 ```bash
 docker compose exec ollama ollama pull gemma4:e4b
+docker compose exec ollama ollama pull gemma4:e2b
 ```
 
 ![Docker containers](TODO upload screenshots/docker-containers.png)
@@ -243,6 +298,8 @@ I handled this by:
 - increasing the Ollama request timeout
 - adding a clearer loading state
 - reducing prompt size
+- adding Fast and Quality model modes
+- adding a short-lived in-memory report cache
 - validating AI output carefully
 
 Another challenge was keeping the AI output predictable. Asking for JSON is not enough by itself, so the backend validates the response and normalizes safe optional fields.
@@ -274,6 +331,7 @@ Future improvements could include:
 - Lighthouse integration
 - browser extension
 - WordPress plugin
+- persistent cache or saved reports
 
 ## Repository
 

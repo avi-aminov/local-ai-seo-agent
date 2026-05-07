@@ -113,6 +113,14 @@ The frontend never talks directly to Ollama. The backend owns validation, scanni
 
 ![SEO report](screenshots/report.png)
 
+### Runtime And Cache
+
+![Runtime and cache](screenshots/runtime-cache.png)
+
+### SEO Health Badges
+
+![SEO health badges](screenshots/health-badges.png)
+
 ### Scan Highlights
 
 ![Scan highlights](screenshots/scan-highlights.png)
@@ -120,6 +128,10 @@ The frontend never talks directly to Ollama. The backend owns validation, scanni
 ### Recommendations
 
 ![Recommendations](screenshots/recommendations.png)
+
+### Export Actions
+
+![Export actions](screenshots/export-actions.png)
 
 ### Docker Containers
 
