@@ -4,6 +4,12 @@ A privacy-friendly SEO audit tool that runs AI analysis locally with Gemma throu
 
 The app scans a public webpage, extracts SEO signals, sends structured data to a local Gemma model, and displays a clear SEO report without using cloud AI APIs.
 
+Repository:
+
+```txt
+https://github.com/avi-aminov/local-ai-seo-agent
+```
+
 ## Workflow
 
 ```txt

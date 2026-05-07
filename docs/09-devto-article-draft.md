@@ -253,5 +253,5 @@ The project combines deterministic SEO scanning with local AI reasoning, validat
 GitHub repository:
 
 ```txt
-TODO: add repository URL
+https://github.com/avi-aminov/local-ai-seo-agent
 ```

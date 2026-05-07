@@ -244,7 +244,7 @@ Status format:
 - `[ + ]` Explain scanner implementation.
 - `[ + ]` Explain AI prompt and JSON validation.
 - `[ + ]` Include screenshots.
-- `[ ]` Include GitHub repository link.
+- `[ + ]` Include GitHub repository link.
 - `[ + ]` Include limitations and future work.
 - `[ ]` Review article for clarity.
 - `[ ]` Submit before May 24, 2026 at 11:59 PM PDT.
