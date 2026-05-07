@@ -56,7 +56,7 @@ Status format:
 - `[ + ]` Reject loopback IP addresses.
 - `[ + ]` Reject private network IP addresses.
 - `[ + ]` Reject unsupported protocols.
-- `[ ]` Add validation tests or manual test cases.
+- `[ + ]` Add validation tests or manual test cases.
 
 ## 06 - SEO Scanner
 
@@ -88,7 +88,7 @@ Status format:
 ## 07 - Gemma And Ollama Integration
 
 - `[ + ]` Install or verify Ollama locally.
-- `[ ]` Pull the selected Gemma model.
+- `[ + ]` Pull the selected Gemma model.
 - `[ + ]` Add `OLLAMA_URL` environment variable.
 - `[ + ]` Add `OLLAMA_MODEL` environment variable.
 - `[ + ]` Create `ai-analyzer.service.ts`.
@@ -96,7 +96,7 @@ Status format:
 - `[ + ]` Send non-streaming request to Ollama.
 - `[ + ]` Handle Ollama unavailable errors.
 - `[ + ]` Handle Ollama timeout errors.
-- `[ ]` Log safe AI failure details for debugging.
+- `[ + ]` Log safe AI failure details for debugging.
 
 ## 08 - Prompt Engineering
 
@@ -111,8 +111,8 @@ Status format:
 - `[ + ]` Ask for recommendations.
 - `[ + ]` Ask for suggested title.
 - `[ + ]` Ask for suggested meta description.
-- `[ ]` Test prompt with a real scanned page.
-- `[ ]` Reduce prompt size if responses are too slow.
+- `[ + ]` Test prompt with a real scanned page.
+- `[ + ]` Reduce prompt size if responses are too slow.
 
 ## 09 - AI Response Validation
 
@@ -124,7 +124,7 @@ Status format:
 - `[ + ]` Validate metadata suggestions.
 - `[ + ]` Parse JSON safely from Ollama response.
 - `[ + ]` Return readable error on malformed AI JSON.
-- `[ ]` Add fallback handling for missing optional text.
+- `[ + ]` Add fallback handling for missing optional text.
 
 ## 10 - Report Builder
 
@@ -176,10 +176,10 @@ Status format:
 - `[ + ]` Make layout responsive.
 - `[ ]` Verify mobile width.
 - `[ ]` Verify desktop width.
-- `[ ]` Improve spacing and typography.
-- `[ ]` Ensure buttons and text do not overflow.
-- `[ ]` Add accessible labels.
-- `[ ]` Check contrast.
+- `[ + ]` Improve spacing and typography.
+- `[ + ]` Ensure buttons and text do not overflow.
+- `[ + ]` Add accessible labels.
+- `[ + ]` Check contrast.
 
 ## 15 - Docker
 
@@ -197,10 +197,10 @@ Status format:
 ## 16 - Testing And Verification
 
 - `[ + ]` Test backend health endpoint.
-- `[ ]` Test URL validation cases.
+- `[ + ]` Test URL validation cases.
 - `[ + ]` Test scanner with `https://example.com`.
-- `[ ]` Test scanner with a real content page.
-- `[ ]` Test full Gemma analysis flow.
+- `[ + ]` Test scanner with a real content page.
+- `[ + ]` Test full Gemma analysis flow.
 - `[ + ]` Test Ollama unavailable error.
 - `[ ]` Test frontend form.
 - `[ ]` Test frontend report rendering.
@@ -211,52 +211,52 @@ Status format:
 ## 17 - README
 
 - `[ + ]` Write project summary.
-- `[ ]` Add feature list.
+- `[ + ]` Add feature list.
 - `[ + ]` Add tech stack.
 - `[ + ]` Add architecture overview.
 - `[ + ]` Add local setup instructions.
 - `[ + ]` Add Docker instructions.
 - `[ + ]` Add exact Gemma model tag.
-- `[ ]` Add screenshots.
-- `[ ]` Add limitations.
-- `[ ]` Add future features.
-- `[ ]` Add contest note.
+- `[ + ]` Add screenshots.
+- `[ + ]` Add limitations.
+- `[ + ]` Add future features.
+- `[ + ]` Add contest note.
 
 ## 18 - Screenshots
 
-- `[ ]` Capture homepage screenshot.
-- `[ ]` Capture loading state screenshot.
-- `[ ]` Capture completed report screenshot.
-- `[ ]` Capture recommendation section screenshot.
-- `[ ]` Capture Docker running screenshot.
-- `[ ]` Save screenshots under `screenshots/`.
-- `[ ]` Reference screenshots in README.
-- `[ ]` Reference screenshots in DEV post.
+- `[ + ]` Capture homepage screenshot.
+- `[ + ]` Capture loading state screenshot.
+- `[ + ]` Capture completed report screenshot.
+- `[ + ]` Capture recommendation section screenshot.
+- `[ + ]` Capture Docker running screenshot.
+- `[ + ]` Save screenshots under `screenshots/`.
+- `[ + ]` Reference screenshots in README.
+- `[ + ]` Reference screenshots in DEV post.
 
 ## 19 - DEV Submission
 
-- `[ ]` Create DEV article draft.
-- `[ ]` Use the contest submission template.
-- `[ ]` Explain the problem.
-- `[ ]` Explain why local AI matters.
-- `[ ]` Explain why Gemma was selected.
-- `[ ]` Explain architecture.
-- `[ ]` Explain scanner implementation.
-- `[ ]` Explain AI prompt and JSON validation.
-- `[ ]` Include screenshots.
+- `[ + ]` Create DEV article draft.
+- `[ + ]` Use the contest submission template.
+- `[ + ]` Explain the problem.
+- `[ + ]` Explain why local AI matters.
+- `[ + ]` Explain why Gemma was selected.
+- `[ + ]` Explain architecture.
+- `[ + ]` Explain scanner implementation.
+- `[ + ]` Explain AI prompt and JSON validation.
+- `[ + ]` Include screenshots.
 - `[ ]` Include GitHub repository link.
-- `[ ]` Include limitations and future work.
+- `[ + ]` Include limitations and future work.
 - `[ ]` Review article for clarity.
 - `[ ]` Submit before May 24, 2026 at 11:59 PM PDT.
 
 ## 20 - Final Quality Gate
 
-- `[ ]` App runs locally.
+- `[ + ]` App runs locally.
 - `[ + ]` App runs with Docker.
-- `[ ]` Full analysis workflow works.
-- `[ ]` No cloud AI API is used.
+- `[ + ]` Full analysis workflow works.
+- `[ + ]` No cloud AI API is used.
 - `[ ]` Gemma is central to the product.
-- `[ ]` Error handling is clean.
+- `[ + ]` Error handling is clean.
 - `[ ]` UI is polished enough for screenshots.
 - `[ ]` README is complete.
 - `[ ]` DEV post is complete.

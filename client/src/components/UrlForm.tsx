@@ -27,7 +27,7 @@ export function UrlForm({ url, loading, onUrlChange, onSubmit }: UrlFormProps) {
         onChange={(event) => onUrlChange(event.target.value)}
       />
       <button
-        className="min-h-12 rounded-md bg-teal-700 px-6 font-semibold text-white transition hover:bg-teal-800 disabled:cursor-not-allowed disabled:bg-slate-400"
+        className="min-h-12 rounded-md bg-teal-700 px-6 font-semibold text-white transition hover:bg-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-300 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-slate-400"
         disabled={loading}
         type="submit"
       >
@@ -36,4 +36,3 @@ export function UrlForm({ url, loading, onUrlChange, onSubmit }: UrlFormProps) {
     </form>
   );
 }
-

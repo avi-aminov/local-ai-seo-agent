@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { buildSeoAnalysisPrompt } from '../prompts/seo-analysis.prompt.js';
 import type { SeoAiAnalysis, SeoScanResult } from '../types/seo.types.js';
+import { AppError } from '../utils/app-error.js';
 import { seoAiAnalysisSchema } from '../validators/ai-response.validator.js';
 
 interface OllamaResponse {
@@ -18,6 +19,24 @@ function extractJson(raw: string): unknown {
     }
     return JSON.parse(raw.slice(start, end + 1));
   }
+}
+
+function normalizeAiPayload(payload: unknown): unknown {
+  if (!payload || typeof payload !== 'object') {
+    return payload;
+  }
+
+  const record = payload as Record<string, unknown>;
+
+  return {
+    ...record,
+    criticalIssues: Array.isArray(record.criticalIssues) ? record.criticalIssues : [],
+    mediumIssues: Array.isArray(record.mediumIssues) ? record.mediumIssues : [],
+    recommendations: Array.isArray(record.recommendations) ? record.recommendations : [],
+    suggestedTitle: typeof record.suggestedTitle === 'string' ? record.suggestedTitle : '',
+    suggestedMetaDescription:
+      typeof record.suggestedMetaDescription === 'string' ? record.suggestedMetaDescription : '',
+  };
 }
 
 export async function analyzeSeoWithAi(scan: SeoScanResult): Promise<SeoAiAnalysis> {
@@ -41,9 +60,23 @@ export async function analyzeSeoWithAi(scan: SeoScanResult): Promise<SeoAiAnalys
     },
   );
 
-  if (!data.response) {
-    throw new Error('Ollama returned an empty response');
-  }
+  try {
+    if (!data.response) {
+      throw new AppError('Ollama returned an empty response', 503);
+    }
 
-  return seoAiAnalysisSchema.parse(extractJson(data.response));
+    return seoAiAnalysisSchema.parse(normalizeAiPayload(extractJson(data.response)));
+  } catch (error) {
+    if (error instanceof AppError) {
+      throw error;
+    }
+
+    console.warn('AI response validation failed', {
+      model,
+      finalUrl: scan.finalUrl,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    });
+
+    throw new AppError('Failed to validate AI response', 422);
+  }
 }

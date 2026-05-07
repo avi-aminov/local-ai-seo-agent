@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ErrorAlert } from './components/ErrorAlert';
 import { IssueList } from './components/IssueList';
 import { LoadingState } from './components/LoadingState';
@@ -19,11 +19,33 @@ function isValidUrl(value: string): boolean {
   }
 }
 
+const loadingSteps = [
+  'Scanning page SEO signals',
+  'Preparing structured prompt',
+  'Running local Gemma model',
+  'Validating AI JSON response',
+  'Building SEO report',
+];
+
 export default function App() {
   const [url, setUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [report, setReport] = useState<SeoReport | null>(null);
+  const [elapsedSeconds, setElapsedSeconds] = useState(0);
+
+  useEffect(() => {
+    if (!loading) {
+      setElapsedSeconds(0);
+      return;
+    }
+
+    const timer = window.setInterval(() => {
+      setElapsedSeconds((current) => current + 1);
+    }, 1000);
+
+    return () => window.clearInterval(timer);
+  }, [loading]);
 
   async function handleSubmit() {
     setError('');
@@ -34,6 +56,7 @@ export default function App() {
     }
 
     setLoading(true);
+    setReport(null);
     try {
       const nextReport = await analyzeUrl(url);
       setReport(nextReport);
@@ -62,7 +85,12 @@ export default function App() {
         </section>
 
         {error ? <ErrorAlert message={error} /> : null}
-        {loading ? <LoadingState /> : null}
+        {loading ? (
+          <LoadingState
+            elapsedSeconds={elapsedSeconds}
+            step={loadingSteps[Math.min(Math.floor(elapsedSeconds / 8), loadingSteps.length - 1)]}
+          />
+        ) : null}
 
         {report ? (
           <div className="grid gap-5">
@@ -100,4 +128,3 @@ export default function App() {
     </main>
   );
 }
-

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import type { NextFunction, Request, Response } from 'express';
 import { ZodError } from 'zod';
+import { AppError } from '../utils/app-error.js';
 
 export function errorMiddleware(
   error: unknown,
@@ -8,6 +9,14 @@ export function errorMiddleware(
   res: Response,
   _next: NextFunction,
 ) {
+  if (error instanceof AppError) {
+    res.status(error.statusCode).json({
+      success: false,
+      message: error.message,
+    });
+    return;
+  }
+
   if (error instanceof ZodError) {
     res.status(400).json({
       success: false,
@@ -38,4 +47,3 @@ export function errorMiddleware(
     message,
   });
 }
-

@@ -17,6 +17,62 @@ URL -> SEO scan -> Gemma via Ollama -> structured AI report -> React UI
 - Local AI: Ollama, Gemma
 - Infrastructure: Docker Compose
 
+## Features
+
+- Single-page SEO audit from a public URL
+- Metadata extraction: title, meta description, canonical, robots, viewport
+- Heading analysis from `h1` through `h6`
+- Image alt attribute checks
+- Internal, external, and empty link counts
+- Open Graph extraction
+- JSON-LD schema detection
+- Content length and word count estimate
+- Local Gemma analysis through Ollama
+- Structured AI response validation
+- SEO score, issues, recommendations, and suggested metadata
+- Docker Compose setup
+
+## Architecture
+
+```txt
+React UI
+  -> Express API
+  -> SEO scanner
+  -> prompt builder
+  -> Ollama
+  -> Gemma
+  -> JSON validator
+  -> report UI
+```
+
+The frontend never talks directly to Ollama. The backend owns validation, scanning, AI orchestration, and response formatting.
+
+## Screenshots
+
+### Homepage
+
+![Homepage](screenshots/homepage.png)
+
+### Loading State
+
+![Loading state](screenshots/loading.png)
+
+### SEO Report
+
+![SEO report](screenshots/report.png)
+
+### Scan Highlights
+
+![Scan highlights](screenshots/scan-highlights.png)
+
+### Recommendations
+
+![Recommendations](screenshots/recommendations.png)
+
+### Docker Containers
+
+![Docker containers](screenshots/docker-containers.png)
+
 ## Development
 
 Backend:
@@ -79,3 +135,31 @@ gemma4:e4b
 ```
 
 This tag was selected because it is a Gemma 4 edge model with stronger reasoning capacity than the smallest variant while still being practical for local development.
+
+Pull the model into the Docker Ollama service:
+
+```bash
+docker compose exec ollama ollama pull gemma4:e4b
+```
+
+## Limitations
+
+- The MVP analyzes one page at a time.
+- JavaScript-rendered content is not executed.
+- Full Lighthouse/Core Web Vitals analysis is not included.
+- First local model response can be slow while Gemma loads into memory.
+- AI output is validated, but recommendations should still be reviewed by a human.
+
+## Future Features
+
+- Multi-page crawling
+- Sitemap support
+- Report history
+- PDF export
+- Lighthouse integration
+- Browser extension
+- WordPress plugin
+
+## Contest Note
+
+This project is being built for the DEV Gemma 4 Challenge. It uses Gemma as the reasoning layer that turns deterministic SEO scan data into actionable recommendations.
