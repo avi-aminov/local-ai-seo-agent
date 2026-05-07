@@ -246,7 +246,7 @@ Status format:
 - `[ + ]` Include screenshots.
 - `[ + ]` Include GitHub repository link.
 - `[ + ]` Include limitations and future work.
-- `[ ]` Review article for clarity.
+- `[ + ]` Review article for clarity.
 - `[ ]` Submit before May 24, 2026 at 11:59 PM PDT.
 
 ## 20 - Final Quality Gate

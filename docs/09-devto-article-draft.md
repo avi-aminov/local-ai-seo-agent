@@ -8,46 +8,47 @@ Building a Local AI SEO Agent with Gemma, Ollama, Docker, and React
 
 ## Introduction
 
-I built Local AI SEO Agent for the Gemma 4 Challenge.
+For the Gemma 4 Challenge, I built **Local AI SEO Agent**: a privacy-friendly SEO audit tool that runs AI analysis locally with Gemma.
 
-It is a local AI-powered SEO audit tool. The user enters a public website URL, the app scans the page for technical SEO signals, and Gemma turns those structured signals into a practical SEO report.
+The app takes a public webpage URL, scans the page for technical SEO signals, sends a compact structured summary to Gemma through Ollama, validates the model response, and displays a practical SEO report.
 
-The key constraint was important: no cloud AI APIs. The AI analysis runs locally through Ollama.
+The main constraint was intentional: **no cloud AI APIs**. The AI layer runs locally.
 
-## The Problem
+![Homepage](TODO upload screenshots/homepage.png)
 
-SEO audits are useful, but many SEO tools depend on cloud platforms, paid APIs, or external AI providers.
+## Why Local AI For SEO
 
-That creates a few problems:
+SEO audits often include page metadata, headings, links, schema, content structure, and recommendations. That data can be sensitive for businesses, agencies, and in-progress websites.
 
-- page data leaves the local machine
-- every AI request can have token cost
-- local development depends on external services
-- the product becomes less portable
+Cloud AI can be useful, but for this project I wanted to avoid:
 
-For this challenge, I wanted to build something practical that shows where local AI is useful: turning deterministic scan data into human-readable recommendations.
+- sending page audit data to an external AI provider
+- paying per token or per request
+- depending on a remote inference API
+- building a demo that only works with a hosted service
+
+Local AI fits this workflow well because the task is bounded. The backend extracts facts, then Gemma reasons over those facts.
 
 ## What The App Does
 
-The app follows a simple workflow:
+The product flow is:
 
 ```txt
 URL -> SEO scan -> Gemma analysis -> validated JSON -> report UI
 ```
 
-The scanner extracts:
+The deterministic scanner extracts:
 
 - title and meta description
 - canonical, robots, and viewport tags
 - heading structure
 - image alt coverage
-- internal and external link counts
-- empty links
+- internal, external, and empty link counts
 - Open Graph tags
 - JSON-LD schema count
 - visible text length and word count
 
-Gemma then generates:
+Gemma generates:
 
 - SEO score
 - summary
@@ -57,17 +58,31 @@ Gemma then generates:
 - suggested title
 - suggested meta description
 
-## Why Gemma
+![SEO report](TODO upload screenshots/report.png)
 
-I used `gemma4:e4b` through Ollama.
+## How Gemma Is Used
 
-The model is a good fit because the task is not open-ended chat. It is structured reasoning over a compact set of SEO facts. Gemma receives scanner data, identifies SEO problems, and returns a strict JSON object that the backend validates before sending it to the frontend.
+I used:
 
-I selected `gemma4:e4b` because it has stronger reasoning capacity than the smallest edge variant while still being practical for local development.
+```txt
+gemma4:e4b
+```
+
+through Ollama.
+
+Gemma is the reasoning layer of the product. It does not fetch websites and it does not parse HTML. Instead, it receives a structured SEO summary from the backend and converts those signals into a human-readable audit.
+
+That means the AI has a focused job:
+
+```txt
+structured SEO facts -> prioritized SEO recommendations
+```
+
+I selected `gemma4:e4b` because it is stronger than the smallest edge variant while still being practical for local development. In my local Docker setup, a full audit generally takes around 1-2 minutes depending on whether the model is already loaded.
 
 ## Architecture
 
-The app has three layers:
+The app has three main parts:
 
 ```txt
 React UI
@@ -92,11 +107,11 @@ The backend owns:
 - AI response validation
 - report formatting
 
+This separation made the project easier to reason about. The scanner extracts facts, Gemma interprets them, and the frontend presents the final report.
+
 ## Backend Scanner
 
-The scanner is deterministic. It uses Axios to fetch the page HTML and Cheerio to parse it.
-
-This separation matters. The scanner extracts facts, and Gemma interprets those facts. That keeps the AI layer focused on reasoning and recommendations instead of parsing HTML.
+The scanner uses Axios to fetch the HTML and Cheerio to parse it.
 
 Example scanner summary:
 
@@ -125,11 +140,21 @@ Example scanner summary:
 }
 ```
 
+The backend also rejects risky input such as:
+
+- localhost URLs
+- loopback IP addresses
+- private network IP addresses
+- malformed URLs
+- unsupported protocols
+
+That matters because the backend fetches user-provided URLs.
+
 ## Prompt And JSON Validation
 
 The prompt tells Gemma to return JSON only.
 
-The required shape is:
+Required output shape:
 
 ```json
 {
@@ -143,13 +168,17 @@ The required shape is:
 }
 ```
 
-The backend validates the response with Zod. If Gemma returns malformed JSON or missing required fields, the API returns a clean error instead of passing unreliable data to the UI.
+The backend validates the response with Zod before returning it to the frontend.
 
-I also reduced the prompt size by sending a scanner summary instead of the full raw scan object. That helped keep local inference more predictable.
+If Gemma returns malformed JSON, missing required fields, or an invalid score, the API returns a clean error instead of rendering unreliable data.
+
+I also reduced the prompt size by sending a scanner summary instead of the full raw scan object. That made local inference more predictable.
+
+![Recommendations](TODO upload screenshots/recommendations.png)
 
 ## Frontend
 
-The frontend is a React and TailwindCSS app.
+The frontend is built with React, TypeScript, Vite, and TailwindCSS.
 
 It includes:
 
@@ -162,7 +191,11 @@ It includes:
 - suggested metadata
 - scan highlights
 
-The loading state is important because local inference can take time. On my machine, a full audit with `gemma4:e4b` takes around 1-2 minutes depending on whether the model is already loaded.
+The loading state is important because local inference can take time, especially on the first request when Ollama loads the model into memory.
+
+![Loading state](TODO upload screenshots/loading.png)
+
+![Scan highlights](TODO upload screenshots/scan-highlights.png)
 
 ## Docker Setup
 
@@ -178,30 +211,19 @@ The services are:
 - backend
 - ollama
 
-The Docker ports are:
+Docker ports:
 
 - frontend: `http://localhost:5174`
 - backend: `http://localhost:3001`
 - Ollama: `http://localhost:11435`
 
-After starting the containers, the model can be pulled with:
+After starting the containers, pull the model into the Ollama service:
 
 ```bash
 docker compose exec ollama ollama pull gemma4:e4b
 ```
 
-## Screenshots
-
-Add these screenshots to the DEV post before publishing:
-
-```md
-![Homepage](TODO upload screenshots/homepage.png)
-![Loading state](TODO upload screenshots/loading.png)
-![SEO report](TODO upload screenshots/report.png)
-![Scan highlights](TODO upload screenshots/scan-highlights.png)
-![Recommendations](TODO upload screenshots/recommendations.png)
 ![Docker containers](TODO upload screenshots/docker-containers.png)
-```
 
 ## Challenges
 
@@ -212,23 +234,25 @@ The scanner is fast, but local inference with a 9.6GB model is hardware-dependen
 I handled this by:
 
 - increasing the Ollama request timeout
-- adding a better loading state
+- adding a clearer loading state
 - reducing prompt size
 - validating AI output carefully
 
-Another challenge was keeping the app safe. Since the backend fetches user-provided URLs, I added validation to reject localhost, loopback, private network IPs, malformed URLs, and unsupported protocols.
+Another challenge was keeping the AI output predictable. Asking for JSON is not enough by itself, so the backend validates the response and normalizes safe optional fields.
 
 ## What I Learned
 
 Local AI works well when the task is clearly bounded.
 
-For this project, Gemma does not need to browse the web or guess what is on the page. The scanner gives it structured data, and the model focuses on interpretation.
+For this project, Gemma does not need to browse the web or guess what is on the page. The scanner gives it structured facts, and the model focuses on interpretation.
 
-That pattern feels practical:
+The pattern I liked most was:
 
 ```txt
 deterministic extraction + local AI reasoning + strict validation
 ```
+
+That feels like a practical way to use local models in developer tools.
 
 ## Future Work
 
@@ -244,14 +268,17 @@ Future improvements could include:
 - browser extension
 - WordPress plugin
 
+## Repository
+
+GitHub:
+
+```txt
+https://github.com/avi-aminov/local-ai-seo-agent
+```
+
 ## Conclusion
 
 Local AI SEO Agent shows how Gemma can power a real developer tool without relying on cloud AI APIs.
 
 The project combines deterministic SEO scanning with local AI reasoning, validates the model output, and presents the result in a clean web UI.
 
-GitHub repository:
-
-```txt
-https://github.com/avi-aminov/local-ai-seo-agent
-```

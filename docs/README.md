@@ -18,7 +18,7 @@ Use the current files in this order:
 6. [05-implementation-plan.md](05-implementation-plan.md) - step-by-step build plan.
 7. [06-local-setup.md](06-local-setup.md) - install, run, verify.
 8. [07-submission-guide.md](07-submission-guide.md) - DEV post, screenshots, judging checklist.
-9. [08-task-checklist.md](08-task-checklist.md) - executable task list with project status.
+9. [project-checklist.md](project-checklist.md) - executable task list with project status.
 10. [09-devto-article-draft.md](09-devto-article-draft.md) - draft DEV challenge submission.
 11. [10-screenshot-plan.md](10-screenshot-plan.md) - exact screenshot checklist.
 
